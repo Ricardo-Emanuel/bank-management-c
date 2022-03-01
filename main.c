@@ -113,12 +113,22 @@ void greet_user(int count)
     printf("Hello, %s %s", users[count-1].first_name, users[count-1].last_name);
 }
 
-//void validate_login(int password, int cpf)
-//{
-    
-//}
+int validate_login(int index)
+{
+    int login_password;
 
-//void login(int cpf)
+    for (int i = 0; i < 3; i++){
+        printf("%s", "Type your password, please: ");
+	scanf("%d", &login_password);
+
+	if (login_password == users[index].password){
+	    return 1;
+	}
+    }
+    return 0;    
+}
+
+//void login(int index)
 //{
     
 //}
@@ -148,8 +158,13 @@ int main()
 		}else{
 		    index = binary_search(login_cpf, count - 1, 0);
 		}
-		printf("%d", index);
-		//login();
+		int flag_validate = validate_login(index);
+		if (flag_validate){
+		    //login(index);
+		    printf("%d", flag_validate);
+		}else{
+		    printf("You failed!");
+		}
 		break;
 	}
     }
