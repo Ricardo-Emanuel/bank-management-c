@@ -118,7 +118,7 @@ int validate_login(int index)
     int login_password;
 
     for (int i = 0; i < 3; i++){
-        printf("%s", "Type your password, please: ");
+        printf("%s %s: ", "Type your password,", users[index].first_name);
 	scanf("%d", &login_password);
 
 	if (login_password == users[index].password){
