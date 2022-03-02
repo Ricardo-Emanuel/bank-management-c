@@ -8,10 +8,9 @@ struct User
 {
     char first_name[15];
     char last_name[15];
-    int cpf;
-    int cpf_digits;
+    long long cpf;
     int password;
-    int balance;
+    float balance;
     char bank_statement[100][10];
 
 };
@@ -24,29 +23,25 @@ void sorting_users(int count)
 {
     char temp_first_name[15];
     char temp_last_name[15];
-    int temp_cpf;
-    int temp_cpf_digits;
+    long long temp_cpf;
     int temp_password;
-    int temp_balance;
+    float temp_balance;
     for (int i = 0; i < count; i++){
         for (int j = 0; j < count - i; j++){
 	    if (users[j].cpf > users[j+1].cpf){
 	        strcpy(temp_first_name, users[j].first_name);
 		strcpy(temp_last_name, users[j].last_name);
 		temp_cpf = users[j].cpf;
-		temp_cpf_digits = users[j].cpf_digits;
 		temp_password = users[j].password;
 		temp_balance = users[j].balance;
 		strcpy(users[j].first_name, users[j+1].first_name);
 		strcpy(users[j].last_name, users[j+1].last_name);
 		users[j].cpf = users[j+1].cpf;
-		users[j].cpf_digits = users[j+1].cpf_digits;
 		users[j].password = users[j+1].password;
 		users[j].balance = users[j+1].balance;
 		strcpy(users[j+1].first_name, temp_first_name);
 		strcpy(users[j+1].last_name, temp_last_name);
 		users[j+1].cpf = temp_cpf;
-		users[j+1].cpf_digits = temp_cpf_digits;
 		users[j+1].password = temp_password;
 		users[j+1].balance = temp_balance;
 
@@ -55,7 +50,7 @@ void sorting_users(int count)
     }
 }
 
-int linear_search(int login_cpf, int count)
+int linear_search(long long login_cpf, int count)
 {
     for (int i = 0; i < count; i++){
         if (login_cpf == users[i].cpf){
@@ -65,7 +60,7 @@ int linear_search(int login_cpf, int count)
     return -1;
 }
 
-int binary_search(int login_cpf, int fim, int inicio)
+int binary_search(long long login_cpf, int fim, int inicio)
 {
     if (inicio <= fim){
         int meio = (inicio + fim) / 2;
@@ -91,19 +86,16 @@ int create_user(int count)
     printf("%s", "Please, type your last name: ");
     scanf("%s", &users[count].last_name);
 
-    printf("%s", "Please, enter your cpf without the last two digits: ");
-    scanf("%d", &users[count].cpf);
-
-    printf("%s", "Please, enter the last two digits of your cpf: ");
-    scanf("%d", &users[count].cpf_digits);
+    printf("%s", "Please, enter your cpf: ");
+    scanf("%lld", &users[count].cpf);
 
     printf("%s", "Enter your password, please: ");
     scanf("%d", &users[count].password);
 
-    users[count].balance = 0;
+    users[count].balance = 0.0;
 
     sorting_users(count);
-
+    system("cls||clear");
     return 1;
 }
 
@@ -128,14 +120,47 @@ int validate_login(int index)
     return 0;    
 }
 
-//void login(int index)
-//{
-    
-//}
+void show_balance(int index)
+{
+printf("\nR$%.2f\n", users[index].balance);
+}
+
+void deposit(int index)
+{
+    float value;
+    printf("\n%s", "Type the value which you want to deposit: R$");
+    scanf("%f", &value);
+    users[index].balance += value;
+}
+
+void login(int index)
+{
+    system("cls||clear");
+    int option;
+    while (option != -1){
+        printf("\nHello, %s, what do you want to do today? ", users[index].first_name);
+	scanf("%d", &option);
+
+	switch(option){
+	    case 1:
+		show_balance(index);
+	        break;
+	    case 2:
+		deposit(index);
+		break;
+	    case 3:
+		//whitdraw(index);
+		break;
+	}
+    }
+    system("cls||clear");
+    printf("\n%s\n", "Ok, see you next time!");
+}
 
 // main function
 int main()
 {
+    system("cls||clear");
     int option;
     int count = 0;
 
@@ -149,10 +174,10 @@ int main()
 		break;
 	    case 2:
 		sorting_users(count - 1);
-		int login_cpf;
+		long long login_cpf;
 		int index;
 		printf("%s", "Type your cpf: ");
-		scanf("%d", &login_cpf);
+		scanf("%lld", &login_cpf);
 		if (count <= 4){
 		    index = linear_search(login_cpf, count);
 		}else{
@@ -160,8 +185,7 @@ int main()
 		}
 		int flag_validate = validate_login(index);
 		if (flag_validate){
-		    //login(index);
-		    printf("%d", flag_validate);
+		    login(index);
 		}else{
 		    printf("You failed!");
 		}
@@ -171,7 +195,8 @@ int main()
     // Debugging
     for (int i = 0; i < count; i++){
         printf("\n%s %s\n", users[i].first_name, users[i].last_name);
-	printf("%d", users[i].cpf);
+	printf("%lld", users[i].cpf);
     }
+    system("cls||clear");
     return 0;
 }
