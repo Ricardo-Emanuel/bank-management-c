@@ -120,6 +120,18 @@ int validate_login(int index)
     return 0;    
 }
 
+void withdraw(int index)
+{
+    float value;
+    printf("\n%s", "Type the value which you want to withdraw: R$");
+    scanf("%f", &value);
+    if ((users[index].balance - value) < 0){
+        printf("\n%s\n", "Sorry, but you can't afford this withdraw!");
+    }else{
+        users[index].balance -= value;
+    }
+}
+
 void show_balance(int index)
 {
 printf("\nR$%.2f\n", users[index].balance);
@@ -138,6 +150,7 @@ void login(int index)
     system("cls||clear");
     int option;
     while (option != -1){
+	system("cls||clear");
         printf("\nHello, %s, what do you want to do today? ", users[index].first_name);
 	scanf("%d", &option);
 
@@ -149,7 +162,7 @@ void login(int index)
 		deposit(index);
 		break;
 	    case 3:
-		//whitdraw(index);
+		withdraw(index);
 		break;
 	}
     }
