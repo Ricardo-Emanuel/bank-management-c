@@ -2,6 +2,8 @@
 # include <string.h>
 # include <stdlib.h>
 # include <time.h>
+# include <Windows.h>
+
 
 // struct of an user of the bank
 struct User
@@ -150,19 +152,27 @@ void login(int index)
     system("cls||clear");
     int option;
     while (option != -1){
-	system("cls||clear");
-        printf("\nHello, %s, what do you want to do today? ", users[index].first_name);
+	printf("\nHello, %s, you're logged in, don't forget to switch off!", users[index].first_name);
+	puts("\n------------------------------------------------------------------\n");
+	puts("(1) CHECK BALANCE\t (2) DEPOSIT\t (3) WITHDRAW\n");
+	puts("Type (-1) to quit.");
+	puts("\n------------------------------------------------------------------\n");
+
+        printf("\n%s, what do you want to do today (choose from the menu)? ", users[index].first_name);
 	scanf("%d", &option);
 
 	switch(option){
 	    case 1:
 		show_balance(index);
+		Sleep(5);
 	        break;
 	    case 2:
 		deposit(index);
+		Sleep(5);
 		break;
 	    case 3:
 		withdraw(index);
+		Sleep(5);
 		break;
 	}
     }
@@ -178,14 +188,33 @@ int main()
     int count = 0;
 
     while (option != -1){
-        printf("\n\n%s", "Hello, how are you? What do you wanna do today? ");
+
+        puts("\n\t\t\tMENU");
+	puts("\n_________________________________________________________________\n");
+	puts("\t\t(1) REGISTER\t| (2) LOGIN\n");
+	puts("\t\tType (-1) to quit.");
+	puts("\n-----------------------------------------------------------------\n");
+
+        printf("%s", "Hello, how are you? What do you wanna do today? ");
         scanf("%d", &option);
 
 	switch(option){
 	    case 1:
+		system("cls||clear");
+
+		puts("\n_____________________________________________");
+		puts("\n\t\tREGISTER");
+		puts("\n---------------------------------------------\n");
+
 	        count += create_user(count);
 		break;
 	    case 2:
+		system("cls||clear");
+
+		puts("\n_____________________________________");
+		puts("\n\t\tLOGIN");
+		puts("\n-------------------------------------\n");
+
 		sorting_users(count - 1);
 		long long login_cpf;
 		int index;
