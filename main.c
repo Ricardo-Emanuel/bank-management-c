@@ -125,6 +125,7 @@ int validate_login(int index)
 void withdraw(int index)
 {
     float value;
+    puts("\n========================================================================");
     printf("\n%s", "Type the value which you want to withdraw: R$");
     scanf("%f", &value);
     if ((users[index].balance - value) < 0){
@@ -132,19 +133,24 @@ void withdraw(int index)
     }else{
         users[index].balance -= value;
     }
+    puts("\n========================================================================\n");
 }
 
 void show_balance(int index)
 {
-printf("\nR$%.2f\n", users[index].balance);
+    puts("\n===================================================");
+    printf("\nR$%.2f\n", users[index].balance);
+    puts("\n===================================================\n");
 }
 
 void deposit(int index)
 {
     float value;
+    puts("\n==================================================================");
     printf("\n%s", "Type the value which you want to deposit: R$");
     scanf("%f", &value);
     users[index].balance += value;
+    puts("\n==================================================================\n");
 }
 
 void login(int index)
@@ -184,11 +190,13 @@ void login(int index)
 int main()
 {
     system("cls||clear");
-    int option;
+    int option, index;
     int count = 0;
 
     while (option != -1){
-
+	if (index != -1){
+	    system("cls||clear");
+	}
         puts("\n\t\t\tMENU");
 	puts("\n_________________________________________________________________\n");
 	puts("\t\t(1) REGISTER\t| (2) LOGIN\n");
@@ -217,7 +225,6 @@ int main()
 
 		sorting_users(count - 1);
 		long long login_cpf;
-		int index;
 		printf("%s", "Type your cpf: ");
 		scanf("%lld", &login_cpf);
 		if (count <= 4){
@@ -225,11 +232,18 @@ int main()
 		}else{
 		    index = binary_search(login_cpf, count - 1, 0);
 		}
+		if (index == -1){
+		    system("cls||clear");
+		    puts("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		    puts("\n\aI don't have this cpf registered in my database, please type correctly or register your account.\n");
+		    puts("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+	            continue;
+		}
 		int flag_validate = validate_login(index);
 		if (flag_validate){
 		    login(index);
 		}else{
-		    printf("You failed!");
+		    printf("\aYou failed!");
 		}
 		break;
 	}
