@@ -11,7 +11,7 @@ struct User
     char first_name[15];
     char last_name[15];
     long long cpf;
-    int password;
+    char password[7];
     float balance;
     char bank_statement[100][10];
 
@@ -26,7 +26,7 @@ void sorting_users(int count)
     char temp_first_name[15];
     char temp_last_name[15];
     long long temp_cpf;
-    int temp_password;
+    char temp_password[7];
     float temp_balance;
     for (int i = 0; i < count; i++){
         for (int j = 0; j < count - i; j++){
@@ -34,17 +34,17 @@ void sorting_users(int count)
 	        strcpy(temp_first_name, users[j].first_name);
 		strcpy(temp_last_name, users[j].last_name);
 		temp_cpf = users[j].cpf;
-		temp_password = users[j].password;
+		strcpy(temp_password, users[j].password);
 		temp_balance = users[j].balance;
 		strcpy(users[j].first_name, users[j+1].first_name);
 		strcpy(users[j].last_name, users[j+1].last_name);
 		users[j].cpf = users[j+1].cpf;
-		users[j].password = users[j+1].password;
+		strcpy(users[j].password, users[j+1].password);
 		users[j].balance = users[j+1].balance;
 		strcpy(users[j+1].first_name, temp_first_name);
 		strcpy(users[j+1].last_name, temp_last_name);
 		users[j+1].cpf = temp_cpf;
-		users[j+1].password = temp_password;
+		strcpy(users[j+1].password, temp_password);
 		users[j+1].balance = temp_balance;
 
 	    }
@@ -92,7 +92,7 @@ int create_user(int count)
     scanf("%lld", &users[count].cpf);
 
     printf("%s", "Enter your password, please: ");
-    scanf("%d", &users[count].password);
+    scanf("%6s", &users[count].password);
 
     users[count].balance = 0.0;
 
@@ -109,13 +109,15 @@ void greet_user(int count)
 
 int validate_login(int index)
 {
-    int login_password;
+    char login_password[7];
 
     for (int i = 0; i < 3; i++){
         printf("%s %s: ", "Type your password,", users[index].first_name);
-	scanf("%d", &login_password);
+	scanf("%6s", &login_password);
 
-	if (login_password == users[index].password){
+	if (strcmp(login_password, users[index].password)){
+	    ; 
+	}else{
 	    return 1;
 	}
     }
